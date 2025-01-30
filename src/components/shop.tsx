@@ -33,15 +33,10 @@ const ProductContainer = () => {
     const limit = 16;
     const searchQuery = useSelector((state) => state.search.query);
     const sortedProducts = useSelector((state) => state.az.products);
+    const productsSearch = useSelector((state) => state.search.products || "");
+    const categoryValue = useSelector((state) => state.category.categoryValue);
 
     const [currentPage, setCurrentPage] = useState(1);
-    const productsSearch = useSelector((state) => state.search.products || "");
-
-    const paginatedSearchResults = searchQuery
-        ? productsSearch.slice((currentPage - 1) * limit, currentPage * limit)
-        : sortedProducts.length > 0
-        ? sortedProducts.slice((currentPage - 1) * limit, currentPage * limit)
-        : products;
 
     useEffect(() => {
         const skip = (currentPage - 1) * limit;
@@ -52,6 +47,18 @@ const ProductContainer = () => {
     const handleChangePage = (page) => {
         setCurrentPage(page);
     };
+
+    const filteredProducts = categoryValue
+        ? products.filter((product) => product.category === categoryValue)
+        : products;
+
+    const paginatedSearchResults = searchQuery
+        ? productsSearch.slice((currentPage - 1) * limit, currentPage * limit)
+        : sortedProducts.length > 0
+        ? sortedProducts.slice((currentPage - 1) * limit, currentPage * limit)
+        : filteredProducts.length > 0 // filteredProducts ni qo'shish
+        ? filteredProducts.slice((currentPage - 1) * limit, currentPage * limit)
+        : products;
 
     return (
         <div

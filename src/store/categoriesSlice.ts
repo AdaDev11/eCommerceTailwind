@@ -34,7 +34,12 @@ export const categoriesFetch = createAsyncThunk(
 const categorySlice = createSlice({
     name: "category",
     initialState,
-    reducers: {},
+    reducers: {
+        setCategoryFilter(state, action) {
+            state.categoryValue = action.payload;
+            console.log(state.categoryValue);
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(categoriesFetch.pending, (state) => {
@@ -42,19 +47,20 @@ const categorySlice = createSlice({
             })
             .addCase(categoriesFetch.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.products = action.payload.map((slug, index) => {
-                    if (typeof slug === "string") {
+                state.products = action.payload.map((category, index) => {
+                    if (typeof category === "string") {
                         return {
                             slug: `unknown-${index}`,
                             name: "Unknown",
                             url: "#",
                         };
                     }
+                    // Correctly extract the slug string from the object
                     return {
                         id: index,
-                        slug,
-                        name: slug.name,
-                        url: `https://dummyjson.com/products/category/${slug}`,
+                        slug: category.slug, // Use the `slug` property directly here
+                        name: category.name,
+                        url: `https://dummyjson.com/products/category/${category.slug}`, // Fix URL
                     };
                 });
             })
@@ -65,4 +71,5 @@ const categorySlice = createSlice({
     },
 });
 
+export const { setCategoryFilter } = categorySlice.actions;
 export default categorySlice.reducer;

@@ -3,7 +3,10 @@ import classes from "../../style/NavbarSearch.module.css";
 import SortByAlphaIcon from "@mui/icons-material/SortByAlpha";
 import { useDispatch, useSelector } from "react-redux";
 import { sortAZFetch, toggleSortOrder } from "../../store/sortAZ.ts";
-import { categoriesFetch } from "../../store/categoriesSlice.ts";
+import {
+    categoriesFetch,
+    setCategoryFilter,
+} from "../../store/categoriesSlice.ts";
 import { useEffect } from "react";
 
 function CategoryNavbar() {
@@ -11,7 +14,6 @@ function CategoryNavbar() {
     const sortOrder = useSelector((state) => state.az.sortOrder);
     const categories = useSelector((state) => state.category.products);
     const isLoading = useSelector((state) => state.category.isLoading);
-    const categoryValue = useSelector((state) => state.category.categoryValue);
 
     useEffect(() => {
         dispatch(categoriesFetch());
@@ -23,13 +25,20 @@ function CategoryNavbar() {
         dispatch(sortAZFetch(newSortOrder));
     };
 
+    const handleCategoryClick = (categoryName) => {
+        dispatch(setCategoryFilter(categoryName)); // Set category filter
+    };
+
     if (isLoading) return <p>Loading...</p>;
 
     const categoryLinks = Array.isArray(categories)
         ? categories.map((category, index) => (
               <a
-                  href="{category.url}"
-                  onClick={(event) => event.preventDefault()}
+                  href={category.url}
+                  onClick={(event) => {
+                      event.preventDefault();
+                      handleCategoryClick(category.slug);
+                  }}
                   key={index}
                   className={classes.collectionLink}
               >
