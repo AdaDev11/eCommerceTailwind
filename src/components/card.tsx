@@ -1,7 +1,8 @@
 import React from "react";
-import { Grid, Card, CardContent, Typography, Button } from "@mui/material";
+import { Grid, Card, CardContent, Typography } from "@mui/material";
 import AspectRatio from "@mui/joy/AspectRatio";
 import { useNavigate } from "react-router-dom";
+import Button from "@mui/joy/Button";
 
 const BasicCard = ({ products, productsSearch }) => {
     const navigate = useNavigate();
@@ -17,12 +18,20 @@ const BasicCard = ({ products, productsSearch }) => {
                     <Card
                         sx={{
                             width: "80%",
-                            minHeight: "400px",
+                            maxHeight: "300px",
                             padding: "10px",
                         }}
                     >
                         <div>
-                            <Typography level="body-sm">
+                            <Typography
+                                level="body-sm"
+                                sx={{
+                                    maxWidth: "100%",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    whiteSpace: "nowrap",
+                                }}
+                            >
                                 Category: {product.category}
                             </Typography>
                         </div>
@@ -36,11 +45,18 @@ const BasicCard = ({ products, productsSearch }) => {
                                 src={product.images[0]}
                                 alt={product.title}
                                 loading="lazy"
+                                style={{
+                                    objectFit: "contain",
+                                }}
                             />
                         </AspectRatio>
                         <CardContent
                             orientation="horizontal"
-                            sx={{ display: "flex" }}
+                            sx={{
+                                display: "flex",
+                                alignItems: "stretch",
+                                gap: "10px",
+                            }}
                         >
                             <div>
                                 <Typography level="body-xs">Price:</Typography>
@@ -53,11 +69,15 @@ const BasicCard = ({ products, productsSearch }) => {
                                     ${product.price}
                                 </Typography>
                             </div>
+
                             <Button
-                                variant="solid"
+                                variant="soft"
                                 size="md"
                                 color="primary"
-                                sx={{ ml: "auto", alignSelf: "center" }}
+                                sx={{
+                                    ml: "auto",
+                                    maxWidth: "40%",
+                                }}
                             >
                                 Buy Now
                             </Button>
@@ -66,7 +86,12 @@ const BasicCard = ({ products, productsSearch }) => {
                         <Typography
                             level="title-lg"
                             variant="h6"
-                            sx={{ minHeight: "40px", alignItems: "center" }}
+                            sx={{
+                                maxWidth: "100%",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                whiteSpace: "nowrap",
+                            }}
                         >
                             {product.title}
                         </Typography>

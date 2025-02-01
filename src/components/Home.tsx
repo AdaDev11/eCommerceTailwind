@@ -9,7 +9,14 @@ export function LeadGrid() {
     const SECONDARY_COL_HEIGHT = `calc(${PRIMARY_COL_HEIGHT} / 2 - var(--mantine-spacing-md) / 2)`;
 
     return (
-        <Container my="md" style={{ maxWidth: "1200px" }}>
+        <Container
+            my="md"
+            style={{
+                maxWidth: "1200px",
+                marginTop: "2.8%",
+                padding: "2%",
+            }}
+        >
             <SimpleGrid cols={{ base: 1, sm: 2 }}>
                 <div className="skeleton-text" style={{ padding: "20px" }}>
                     <h1

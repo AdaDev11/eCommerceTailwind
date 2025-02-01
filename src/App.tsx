@@ -12,26 +12,31 @@ import { createStore, combineReducers } from "redux";
 import ProductContainer from "./components/shop.tsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ProductDetails from "./components/productDetails.tsx";
-import NavbarSearch from "./components/userPage/userPage.tsx";
+import Carusel from "./components/carusel.tsx";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 function App() {
     return (
         <Provider store={store}>
-            <MantineProvider>
-                <PrimarySearchAppBar />
-                <LeadGrid />
+            <QueryClientProvider client={queryClient}>
+                <MantineProvider>
+                    <PrimarySearchAppBar />
+                    <LeadGrid />
+                    <Carusel />
 
-                <Router>
-                    <Routes>
-                        <Route path="/" element={<ProductContainer />} />
-                        <Route
-                            path="/product/:id"
-                            element={<ProductDetails />}
-                        />
-                    </Routes>
-                </Router>
-                <NavbarSearch />
-            </MantineProvider>
+                    <Router>
+                        <Routes>
+                            <Route path="/" element={<ProductContainer />} />
+                            <Route
+                                path="/product/:id"
+                                element={<ProductDetails />}
+                            />
+                        </Routes>
+                    </Router>
+                </MantineProvider>
+            </QueryClientProvider>
         </Provider>
     );
 }

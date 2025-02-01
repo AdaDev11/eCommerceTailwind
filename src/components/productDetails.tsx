@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Carousel } from "@mantine/carousel";
-import {
-    Container,
-    Grid,
-    SimpleGrid,
-    Skeleton,
-    Button,
-    Text,
-} from "@mantine/core";
+import { Container, Grid, SimpleGrid, Skeleton, Text } from "@mantine/core";
+import { useSelector } from "react-redux";
+import "@mantine/carousel/styles.css";
+import Button from "@mui/joy/Button";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
 const PRIMARY_COL_HEIGHT = "300px";
 
@@ -47,9 +44,6 @@ const ProductDetails = () => {
                     slideSize="100%"
                     withIndicators
                     loop
-                    styles={{
-                        root: { borderRadius: "8px", overflow: "hidden" },
-                    }}
                 >
                     {product.images.map((image, index) => (
                         <Carousel.Slide key={index}>
@@ -59,7 +53,7 @@ const ProductDetails = () => {
                                 style={{
                                     width: "100%",
                                     height: "100%",
-                                    objectFit: "cover",
+                                    objectFit: "contain",
                                 }}
                             />
                         </Carousel.Slide>
@@ -105,18 +99,37 @@ const ProductDetails = () => {
                             style={{
                                 height: SECONDARY_COL_HEIGHT,
                                 borderRadius: "8px",
-                                display: "flex",
+                                display: "blok",
                                 justifyContent: "center",
+                                flexDirection: "column",
                                 alignItems: "center",
                             }}
                         >
                             <Button
-                                variant="filled"
-                                color="blue"
-                                onClick={() => navigate(-1)}
-                                style={{ marginTop: "20px" }}
+                                variant="soft"
+                                size="md"
+                                color="primary"
+                                sx={{
+                                    ml: "auto",
+                                    width: "100%",
+                                    padding: "4%",
+                                    margin: "4%",
+                                }}
                             >
-                                Go Back
+                                Buy Now
+                            </Button>
+                            <Button
+                                variant="soft"
+                                color="neutral"
+                                onClick={() => navigate(-1)}
+                                sx={{
+                                    ml: "auto",
+                                    width: "100%",
+                                    padding: "2%",
+                                    margin: "4%",
+                                }}
+                            >
+                                <KeyboardBackspaceIcon />
                             </Button>
                         </div>
                     </Grid.Col>

@@ -56,8 +56,6 @@ const ProductContainer = () => {
         ? productsSearch.slice((currentPage - 1) * limit, currentPage * limit)
         : sortedProducts.length > 0
         ? sortedProducts.slice((currentPage - 1) * limit, currentPage * limit)
-        : filteredProducts.length > 0 // filteredProducts ni qo'shish
-        ? filteredProducts.slice((currentPage - 1) * limit, currentPage * limit)
         : products;
 
     return (
@@ -72,6 +70,15 @@ const ProductContainer = () => {
                 <Pagination
                     count={Math.ceil(totalProducts / limit)}
                     page={currentPage}
+                    sx={{
+                        alignItems: "center",
+                    }}
+                    style={{
+                        display: "flex",
+                        padding: "1%",
+                        margin: "1%",
+                        justifyContent: "center",
+                    }}
                     onChange={(event, value) => handleChangePage(value)}
                 />
             </ThemeProvider>

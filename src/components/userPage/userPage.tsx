@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { sortAZFetch, toggleSortOrder } from "../../store/sortAZ.ts";
 import {
     categoriesFetch,
+    productsForCategoryFetch,
     setCategoryFilter,
 } from "../../store/categoriesSlice.ts";
 import { useEffect } from "react";
@@ -12,7 +13,8 @@ import { useEffect } from "react";
 function CategoryNavbar() {
     const dispatch = useDispatch();
     const sortOrder = useSelector((state) => state.az.sortOrder);
-    const categories = useSelector((state) => state.category.products);
+    const categories = useSelector((state) => state.category.categories);
+    const products = useSelector((state) => state.category.products);
     const isLoading = useSelector((state) => state.category.isLoading);
 
     useEffect(() => {
@@ -26,7 +28,8 @@ function CategoryNavbar() {
     };
 
     const handleCategoryClick = (categoryName) => {
-        dispatch(setCategoryFilter(categoryName)); // Set category filter
+        dispatch(setCategoryFilter(categoryName));
+        dispatch(productsForCategoryFetch(categoryName));
     };
 
     if (isLoading) return <p>Loading...</p>;

@@ -15,6 +15,7 @@ export interface Product {
 }
 
 const initialState = {
+    categories: [] as string[],
     products: [] as Product[],
     isLoading: false,
     error: null as string | null,
@@ -28,6 +29,16 @@ export const categoriesFetch = createAsyncThunk(
             "https://dummyjson.com/products/categories"
         );
         return res.data;
+    }
+);
+
+export const productsForCategoryFetch = createAsyncThunk(
+    "category/productsForCategoryFetch",
+    async (categoryValue: string) => {
+        const res = await axios.get(
+            `https://dummyjson.com/products/category/${categoryValue}`
+        );
+        return res.data.products;
     }
 );
 
@@ -47,24 +58,20 @@ const categorySlice = createSlice({
             })
             .addCase(categoriesFetch.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.products = action.payload.map((category, index) => {
-                    if (typeof category === "string") {
-                        return {
-                            slug: `unknown-${index}`,
-                            name: "Unknown",
-                            url: "#",
-                        };
-                    }
-                    // Correctly extract the slug string from the object
-                    return {
-                        id: index,
-                        slug: category.slug, // Use the `slug` property directly here
-                        name: category.name,
-                        url: `https://dummyjson.com/products/category/${category.slug}`, // Fix URL
-                    };
-                });
+                state.categories = action.payload;
             })
             .addCase(categoriesFetch.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.error.message;
+            })
+            .addCase(productsForCategoryFetch.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(productsForCategoryFetch.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.products = action.payload;
+            })
+            .addCase(productsForCategoryFetch.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.error.message;
             });
