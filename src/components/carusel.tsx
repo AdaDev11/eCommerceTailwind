@@ -1,5 +1,5 @@
 import axios from "axios";
-import Autoplay from "embla-carousel-autoplay";
+import { Autoplay as EmblaAutoplay } from "embla-carousel-autoplay";
 import { Carousel } from "@mantine/carousel";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
@@ -12,7 +12,8 @@ const fetchProductsForImgs = async () => {
 const Carusel = () => {
     const [embla, setEmbla] = useState<any>(null);
 
-    const autoplay = new Autoplay({ delay: 2000 });
+    // Specify the type explicitly for Autoplay instance
+    const autoplay = new EmblaAutoplay({ delay: 2000 });
 
     const {
         data: images,
@@ -32,8 +33,8 @@ const Carusel = () => {
             height={200}
             plugins={[autoplay]}
             getEmblaApi={setEmbla}
-            onMouseEnter={() => embla?.plugins()?.find(Autoplay)?.stop()}
-            onMouseLeave={() => embla?.plugins()?.find(Autoplay)?.reset()}
+            onMouseEnter={() => embla?.plugins()?.find(EmblaAutoplay)?.stop()}
+            onMouseLeave={() => embla?.plugins()?.find(EmblaAutoplay)?.reset()}
             slidesToScroll={2}
             slideSize="33%"
             align="start"
