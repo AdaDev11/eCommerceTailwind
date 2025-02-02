@@ -1,7 +1,7 @@
 import axios from "axios"; // ✅ To‘g‘ri import
 import Autoplay from "embla-carousel-autoplay";
 import { Carousel } from "@mantine/carousel";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 const fetchProductsForImgs = async () => {
@@ -10,7 +10,11 @@ const fetchProductsForImgs = async () => {
 };
 
 const Carusel = () => {
-    const autoplay = useRef(Autoplay({ delay: 2000 }));
+    const autoplay = useRef<ReturnType<typeof Autoplay> | null>(null);
+
+    useEffect(() => {
+        autoplay.current = Autoplay({ delay: 2000 });
+    }, []);
 
     const {
         data: images,
