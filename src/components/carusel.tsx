@@ -29,9 +29,9 @@ const Carusel = () => {
             <Carousel
                 withIndicators
                 height={200}
-                plugins={[autoplay.current]}
-                onMouseEnter={autoplay.current.stop}
-                onMouseLeave={autoplay.current.reset}
+                plugins={autoplay.current ? [autoplay.current] : []}
+                onMouseEnter={() => autoplay.current?.stop()}
+                onMouseLeave={() => autoplay.current?.reset()}
                 slidesToScroll={2}
                 slideSize="33%"
                 align="start"
