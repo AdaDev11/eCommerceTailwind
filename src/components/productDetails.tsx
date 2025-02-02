@@ -1,18 +1,30 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Carousel } from "@mantine/carousel";
-import { Container, Grid, SimpleGrid, Skeleton, Text } from "@mantine/core";
-import { useSelector } from "react-redux";
+import { Container, Grid, SimpleGrid, Text } from "@mantine/core";
 import "@mantine/carousel/styles.css";
 import Button from "@mui/joy/Button";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
 const PRIMARY_COL_HEIGHT = "300px";
 
+export interface Product {
+    id: number;
+    title: string;
+    description: string;
+    category: string;
+    price: number;
+    images: string[];
+    quantity: number;
+    thumbnail: string;
+    discountedPrice: number;
+    total: number;
+}
+
 const ProductDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [product, setProduct] = useState(null);
+    const [product, setProduct] = useState<Product | null>(null);
 
     const SECONDARY_COL_HEIGHT = `calc(${PRIMARY_COL_HEIGHT} / 2 - var(--mantine-spacing-md) / 2)`;
 
@@ -69,9 +81,7 @@ const ProductDetails = () => {
                                 padding: "10px",
                             }}
                         >
-                            <Text size="xl" weight="bold">
-                                {product.title}
-                            </Text>
+                            <Text size="xl">{product.title}</Text>
                             <Text>{product.description}</Text>
                         </div>
                     </Grid.Col>
@@ -87,9 +97,7 @@ const ProductDetails = () => {
                                 justifyContent: "center",
                             }}
                         >
-                            <Text size="lg" weight="bold">
-                                Price: ${product.price}
-                            </Text>
+                            <Text size="lg">Price: ${product.price}</Text>
                             <Text>Quantity: {product.quantity}</Text>
                         </div>
                     </Grid.Col>

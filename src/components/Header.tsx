@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -18,6 +18,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { searchFetch } from "../store/searchSlice.ts";
 import { setQuery } from "../store/searchSlice.ts";
+import { RootState, AppDispatch } from "../store/store.ts";
 
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -60,10 +61,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
-    const dispatch = useDispatch();
-    const searchQuery = useSelector((state) => state.search.query || "");
+    const dispatch = useDispatch<AppDispatch>();
+    const searchQuery = useSelector(
+        (state: RootState) => state.search.query || ""
+    );
 
-    const handleSearch = (e) => {
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const query = e.target.value;
         dispatch(setQuery(query));
         if (query) {
@@ -71,9 +74,9 @@ export default function PrimarySearchAppBar() {
         }
     };
 
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
-        React.useState<null | HTMLElement>(null);
+        useState<null | HTMLElement>(null);
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);

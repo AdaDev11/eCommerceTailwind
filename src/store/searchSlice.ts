@@ -17,6 +17,8 @@ export interface Product {
 const initialState = {
     products: [] as Product[],
     searchQuery: "",
+    isLoading: false,
+    query: "",
 };
 
 export const searchFetch = createAsyncThunk(
@@ -40,16 +42,13 @@ const searchSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(searchFetch.pending, (state) => {
-                state.status = "loading";
                 state.isLoading = true;
             })
             .addCase(searchFetch.fulfilled, (state, action) => {
-                state.status = "succeeded";
                 state.isLoading = false;
                 state.products = action.payload.products;
             })
             .addCase(searchFetch.rejected, (state) => {
-                state.status = "failed";
                 state.isLoading = true;
             });
     },

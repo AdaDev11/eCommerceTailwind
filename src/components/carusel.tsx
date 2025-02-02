@@ -1,12 +1,12 @@
 import axios from "axios"; // ✅ To‘g‘ri import
 import Autoplay from "embla-carousel-autoplay";
 import { Carousel } from "@mantine/carousel";
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 const fetchProductsForImgs = async () => {
     const res = await axios.get("https://dummyjson.com/products");
-    return res.data.products.flatMap((p) => p.images[0]);
+    return res.data.products.flatMap((p: { images: string[] }) => p.images[0]);
 };
 
 const Carusel = () => {
@@ -41,11 +41,11 @@ const Carusel = () => {
                 }}
             >
                 {images.length > 0 &&
-                    images.map((image, index) => (
-                        <Carousel.Slide key={index}>
+                    images.map((image: string) => (
+                        <Carousel.Slide>
                             <img
                                 src={image}
-                                alt={`Slide ${index}`}
+                                alt={`Slide `}
                                 style={{
                                     width: "100%",
                                     height: "100%",

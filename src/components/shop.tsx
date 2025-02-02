@@ -6,7 +6,7 @@ import BasicCard from "./card.tsx";
 import { Grid, Pagination } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CategoryNavbar from "./userPage/userPage.tsx";
-import { sortAZFetch } from "../store/sortAZ.ts";
+import { RootState, AppDispatch } from "../store/store.ts";
 
 const theme = createTheme({
     components: {
@@ -27,14 +27,20 @@ const theme = createTheme({
 });
 
 const ProductContainer = () => {
-    const dispatch = useDispatch();
-    const products = useSelector((state) => state.products.products);
-    const totalProducts = useSelector((state) => state.products.total);
+    const dispatch = useDispatch<AppDispatch>();
+    const products = useSelector((state: RootState) => state.products.products);
+    const totalProducts = useSelector(
+        (state: RootState) => state.products.total
+    );
     const limit = 16;
-    const searchQuery = useSelector((state) => state.search.query);
-    const sortedProducts = useSelector((state) => state.az.products);
-    const productsSearch = useSelector((state) => state.search.products || "");
-    const categoryValue = useSelector((state) => state.category.categoryValue);
+    const searchQuery = useSelector((state: RootState) => state.search.query);
+    const sortedProducts = useSelector((state: RootState) => state.az.products);
+    const productsSearch = useSelector(
+        (state: RootState) => state.search.products || ""
+    );
+    // const categoryValue = useSelector(
+    //     (state: RootState) => state.category.categoryValue
+    // );
 
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -44,13 +50,13 @@ const ProductContainer = () => {
         dispatch(searchFetch(searchQuery));
     }, [dispatch, currentPage, searchQuery]);
 
-    const handleChangePage = (page) => {
+    const handleChangePage = (page: number) => {
         setCurrentPage(page);
     };
 
-    const filteredProducts = categoryValue
-        ? products.filter((product) => product.category === categoryValue)
-        : products;
+    // const filteredProducts = categoryValue
+    //     ? products.filter((product) => product.category === categoryValue)
+    //     : products;
 
     const paginatedSearchResults = searchQuery
         ? productsSearch.slice((currentPage - 1) * limit, currentPage * limit)
@@ -79,7 +85,9 @@ const ProductContainer = () => {
                         margin: "1%",
                         justifyContent: "center",
                     }}
-                    onChange={(event, value) => handleChangePage(value)}
+                    onChange={(event, value) => {
+                        handleChangePage(value), console.log(event);
+                    }}
                 />
             </ThemeProvider>
 

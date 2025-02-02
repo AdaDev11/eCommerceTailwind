@@ -1,13 +1,29 @@
-import React from "react";
 import { Grid, Card, CardContent, Typography } from "@mui/material";
 import AspectRatio from "@mui/joy/AspectRatio";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/joy/Button";
 
-const BasicCard = ({ products, productsSearch }) => {
+export interface Product {
+    id: number;
+    title: string;
+    description: string;
+    category: string;
+    price: number;
+    images: string[];
+    quantity: number;
+    thumbnail: string;
+    discountedPrice: number;
+    total: number;
+}
+
+interface BasicCardProps {
+    products: Product[];
+}
+
+const BasicCard: React.FC<BasicCardProps> = ({ products }) => {
     const navigate = useNavigate();
 
-    const handleImageClick = (productId) => {
+    const handleImageClick = (productId: number) => {
         navigate(`/product/${productId}`);
     };
 
@@ -24,7 +40,7 @@ const BasicCard = ({ products, productsSearch }) => {
                     >
                         <div>
                             <Typography
-                                level="body-sm"
+                                variant="body2"
                                 sx={{
                                     maxWidth: "100%",
                                     overflow: "hidden",
@@ -51,7 +67,7 @@ const BasicCard = ({ products, productsSearch }) => {
                             />
                         </AspectRatio>
                         <CardContent
-                            orientation="horizontal"
+                            component="div"
                             sx={{
                                 display: "flex",
                                 alignItems: "stretch",
@@ -59,11 +75,11 @@ const BasicCard = ({ products, productsSearch }) => {
                             }}
                         >
                             <div>
-                                <Typography level="body-xs">Price:</Typography>
+                                <Typography variant="body2">Price:</Typography>
                                 <Typography
                                     sx={{
                                         fontSize: "lg",
-                                        fontWeight: "lg",
+                                        fontWeight: "bold",
                                     }}
                                 >
                                     ${product.price}
@@ -84,7 +100,6 @@ const BasicCard = ({ products, productsSearch }) => {
                         </CardContent>
 
                         <Typography
-                            level="title-lg"
                             variant="h6"
                             sx={{
                                 maxWidth: "100%",

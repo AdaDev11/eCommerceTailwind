@@ -9,13 +9,17 @@ import {
     setCategoryFilter,
 } from "../../store/categoriesSlice.ts";
 import { useEffect } from "react";
+import { RootState, AppDispatch } from "../../store/store.ts";
 
 function CategoryNavbar() {
-    const dispatch = useDispatch();
-    const sortOrder = useSelector((state) => state.az.sortOrder);
-    const categories = useSelector((state) => state.category.categories);
-    const products = useSelector((state) => state.category.products);
-    const isLoading = useSelector((state) => state.category.isLoading);
+    const dispatch = useDispatch<AppDispatch>();
+    const sortOrder = useSelector((state: RootState) => state.az.sortOrder);
+    const categories = useSelector(
+        (state: RootState) => state.category.categories
+    );
+    const isLoading = useSelector(
+        (state: RootState) => state.category.isLoading
+    );
 
     useEffect(() => {
         dispatch(categoriesFetch());
@@ -27,7 +31,7 @@ function CategoryNavbar() {
         dispatch(sortAZFetch(newSortOrder));
     };
 
-    const handleCategoryClick = (categoryName) => {
+    const handleCategoryClick = (categoryName: string) => {
         dispatch(setCategoryFilter(categoryName));
         dispatch(productsForCategoryFetch(categoryName));
     };

@@ -14,11 +14,16 @@ export interface Product {
     total: number;
 }
 
+export interface Category {
+    slug: string;
+    name: string;
+    url: string;
+}
+
 const initialState = {
-    categories: [] as string[],
+    categories: [] as Category[],
     products: [] as Product[],
     isLoading: false,
-    error: null as string | null,
     categoryValue: "",
 };
 
@@ -60,9 +65,8 @@ const categorySlice = createSlice({
                 state.isLoading = false;
                 state.categories = action.payload;
             })
-            .addCase(categoriesFetch.rejected, (state, action) => {
+            .addCase(categoriesFetch.rejected, (state) => {
                 state.isLoading = false;
-                state.error = action.error.message;
             })
             .addCase(productsForCategoryFetch.pending, (state) => {
                 state.isLoading = true;
@@ -71,9 +75,8 @@ const categorySlice = createSlice({
                 state.isLoading = false;
                 state.products = action.payload;
             })
-            .addCase(productsForCategoryFetch.rejected, (state, action) => {
+            .addCase(productsForCategoryFetch.rejected, (state) => {
                 state.isLoading = false;
-                state.error = action.error.message;
             });
     },
 });
