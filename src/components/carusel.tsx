@@ -12,6 +12,8 @@ const fetchProductsForImgs = async () => {
 const Carusel = () => {
     const [embla, setEmbla] = useState<any>(null);
 
+    const autoplay = Autoplay({ delay: 2000 });
+
     const {
         data: images,
         isLoading,
@@ -28,10 +30,10 @@ const Carusel = () => {
         <Carousel
             withIndicators
             height={200}
-            plugins={[Autoplay({ delay: 2000 })]}
+            plugins={[autoplay]}
             getEmblaApi={setEmbla}
-            onMouseEnter={() => embla?.plugins()?.autoplay?.stop()}
-            onMouseLeave={() => embla?.plugins()?.autoplay?.reset()}
+            onMouseEnter={() => embla?.plugins()?.find(Autoplay)?.stop()}
+            onMouseLeave={() => embla?.plugins()?.find(Autoplay)?.reset()}
             slidesToScroll={2}
             slideSize="33%"
             align="start"
