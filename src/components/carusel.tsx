@@ -12,7 +12,7 @@ const fetchProductsForImgs = async () => {
 const Carusel = () => {
     const [embla, setEmbla] = useState<any>(null);
 
-    const autoplay = Autoplay({ delay: 2000 });
+    const autoplay = new Autoplay({ delay: 2000 });
 
     const {
         data: images,
