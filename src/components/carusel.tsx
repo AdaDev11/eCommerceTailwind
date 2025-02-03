@@ -38,7 +38,7 @@ const Carusel = () => {
             withIndicators
             height={200}
             slideSize="33%"
-            slidesToScroll={2}
+            slidesToScroll={1}
             align="start"
             loop
             initialSlide={currentIndex}
