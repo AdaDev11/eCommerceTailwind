@@ -1,8 +1,7 @@
 import axios from "axios";
-import Autoplay from "embla-carousel-autoplay";
 import { Carousel } from "@mantine/carousel";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const fetchProductsForImgs = async () => {
     const res = await axios.get("https://dummyjson.com/products");
@@ -10,8 +9,6 @@ const fetchProductsForImgs = async () => {
 };
 
 const Carusel = () => {
-    const [embla, setEmbla] = useState<any>(null);
-
     const {
         data: images,
         isLoading,
@@ -21,6 +18,18 @@ const Carusel = () => {
         queryFn: fetchProductsForImgs,
     });
 
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    useEffect(() => {
+        if (!images || images.length === 0) return;
+
+        const interval = setInterval(() => {
+            setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+        }, 2000);
+
+        return () => clearInterval(interval);
+    }, [images]);
+
     if (isLoading) return <p>Loading...</p>;
     if (error) return <p>Error: {error.message}</p>;
 
@@ -28,13 +37,11 @@ const Carusel = () => {
         <Carousel
             withIndicators
             height={200}
-            plugins={[Autoplay({ delay: 2000 })]}
-            getEmblaApi={setEmbla}
-            onMouseEnter={() => embla?.plugins()?.autoplay?.stop()}
-            onMouseLeave={() => embla?.plugins()?.autoplay?.reset()}
-            slidesToScroll={2}
             slideSize="33%"
+            slidesToScroll={2}
             align="start"
+            loop
+            initialSlide={currentIndex}
             style={{
                 padding: "2%",
                 margin: "2.8%",
